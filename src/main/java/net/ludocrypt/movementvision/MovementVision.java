@@ -1,5 +1,9 @@
 package net.ludocrypt.movementvision;
 
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.util.InputUtil;
 import org.ladysnake.satin.api.managed.ManagedShaderEffect;
 import org.ladysnake.satin.api.managed.ShaderEffectManager;
 import net.fabricmc.api.ClientModInitializer;
@@ -8,6 +12,7 @@ import net.ludocrypt.movementvision.config.MovementConfig;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.Framebuffer;
 import net.minecraft.util.Identifier;
+import org.lwjgl.glfw.GLFW;
 
 public class MovementVision implements ClientModInitializer {
 
@@ -37,6 +42,22 @@ public class MovementVision implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
 		MovementConfig.init();
+		registerKeybindings();
 	}
 
+	private void registerKeybindings() {
+		KeyBinding toggleMovementVision = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+				"key.movement_vision.toggle",
+				InputUtil.Type.KEYSYM,
+				GLFW.GLFW_KEY_UNKNOWN,
+				"category.movement_vision.controls"
+				)
+		);
+
+		ClientTickEvents.END_CLIENT_TICK.register(client -> {
+			if (toggleMovementVision.wasPressed()) {
+				MovementConfig.alwaysOn = !MovementConfig.alwaysOn;
+			}
+		});
+	}
 }

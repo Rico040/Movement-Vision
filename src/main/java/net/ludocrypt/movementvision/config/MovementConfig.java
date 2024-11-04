@@ -11,7 +11,7 @@ public class MovementConfig implements ConfigData {
 
 	public boolean enabled = true;
 
-	public boolean alwaysOn = false;
+	public static boolean alwaysOn = false;
 
 	public float blurRadius = 1.0F;
 

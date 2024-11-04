@@ -1,4 +1,6 @@
 {
+	"key.movement_vision.toggle": "Toggle Movement Vision",
+	"category.movement_vision.controls": "Movement Vision",
 	"text.autoconfig.movement_vision.title": "Movement Vision Config",
 	"text.autoconfig.movement_vision.option.enabled": "Enabled",
 	"text.autoconfig.movement_vision.option.alwaysOn": "Always On",
