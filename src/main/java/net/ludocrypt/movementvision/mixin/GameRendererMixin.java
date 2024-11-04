@@ -1,5 +1,7 @@
 package net.ludocrypt.movementvision.mixin;
 
+import net.ludocrypt.movementvision.util.IncapacitatedSupport;
+import net.minecraft.client.render.RenderTickCounter;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -12,7 +14,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import net.ludocrypt.movementvision.MovementVision;
 import net.ludocrypt.movementvision.config.MovementConfig;
 import net.ludocrypt.movementvision.util.DeltaModifier;
-import net.ludocrypt.movementvision.util.IncapacitatedSupport;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.GameRenderer;
 
@@ -24,14 +25,14 @@ public class GameRendererMixin {
 	private MinecraftClient client;
 
 	@Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/WorldRenderer;drawEntityOutlinesFramebuffer()V", shift = Shift.AFTER))
-	private void movementVision$render(float tickDelta, long nanoTime, boolean renderLevel, CallbackInfo info) {
+	private void movementVision$render(RenderTickCounter tickCounter, boolean tick, CallbackInfo ci) {
 		if (MovementConfig.getInstance().enabled) {
 			if (MovementConfig.getInstance().alwaysOn) {
 				DeltaModifier.delta = 0.0F;
-				movementVision$render(tickDelta);
+				movementVision$render(tickCounter.getTickDelta(false));
 			}
 			if (!MovementConfig.getInstance().alwaysOn && MovementVision.IS_INCAPACITATED_INSTALLED && MovementConfig.getInstance().incapacitatedSupport.enabled) {
-				movementVision$render(tickDelta);
+				movementVision$render(tickCounter.getTickDelta(false));
 			} else {
 				DeltaModifier.delta = 1.0F;
 			}

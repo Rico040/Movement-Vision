@@ -1,7 +1,7 @@
 package net.ludocrypt.movementvision;
 
-import ladysnake.satin.api.managed.ManagedShaderEffect;
-import ladysnake.satin.api.managed.ShaderEffectManager;
+import org.ladysnake.satin.api.managed.ManagedShaderEffect;
+import org.ladysnake.satin.api.managed.ShaderEffectManager;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.ludocrypt.movementvision.config.MovementConfig;
@@ -18,19 +18,19 @@ public class MovementVision implements ClientModInitializer {
 	public static Framebuffer previousBuffer;
 	public static Framebuffer trailBuffer;
 
-	public static final ManagedShaderEffect DIFFERENCE_MIX = ShaderEffectManager.getInstance().manage(new Identifier("movementvision", "shaders/post/difference_mix.json"), shader -> {
+	public static final ManagedShaderEffect DIFFERENCE_MIX = ShaderEffectManager.getInstance().manage(Identifier.of("movementvision", "shaders/post/difference_mix.json"), shader -> {
 		previousBufferBuffer.resize(client.getWindow().getFramebufferWidth(), client.getWindow().getFramebufferHeight(), MinecraftClient.IS_SYSTEM_MAC);
 		previousBuffer.resize(client.getWindow().getFramebufferWidth(), client.getWindow().getFramebufferHeight(), MinecraftClient.IS_SYSTEM_MAC);
 		shader.setSamplerUniform("PrevSampler", previousBuffer);
 	});
 
-	public static final ManagedShaderEffect BLUR_MIX = ShaderEffectManager.getInstance().manage(new Identifier("movementvision", "shaders/post/blur_mix.json"));
+	public static final ManagedShaderEffect BLUR_MIX = ShaderEffectManager.getInstance().manage(Identifier.of("movementvision", "shaders/post/blur_mix.json"));
 
-	public static final ManagedShaderEffect TRAIL_MIX = ShaderEffectManager.getInstance().manage(new Identifier("movementvision", "shaders/post/trail_mix.json"), shader -> {
+	public static final ManagedShaderEffect TRAIL_MIX = ShaderEffectManager.getInstance().manage(Identifier.of("movementvision", "shaders/post/trail_mix.json"), shader -> {
 		shader.setSamplerUniform("PrevSampler", trailBuffer);
 	});
 
-	public static final ManagedShaderEffect TINT = ShaderEffectManager.getInstance().manage(new Identifier("movementvision", "shaders/post/tint.json"), shader -> {
+	public static final ManagedShaderEffect TINT = ShaderEffectManager.getInstance().manage(Identifier.of("movementvision", "shaders/post/tint.json"), shader -> {
 		shader.setSamplerUniform("PrevSampler", previousBufferBuffer);
 	});
 

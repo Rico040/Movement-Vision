@@ -1,7 +1,7 @@
 package net.ludocrypt.movementvision.util;
 
-import com.cartoonishvillain.incapacitated.components.ComponentStarter;
-import com.cartoonishvillain.incapacitated.components.PlayerComponent;
+import com.cartoonishvillain.incapacitated.component.ComponentStarter;
+import com.cartoonishvillain.incapacitated.component.IncapacitatedComponent;
 
 import net.ludocrypt.movementvision.config.MovementConfig;
 import net.minecraft.client.MinecraftClient;
@@ -11,7 +11,7 @@ public class IncapacitatedSupport {
 
 	public static void renderIncapacitated(float tickDelta) {
 		MinecraftClient client = MinecraftClient.getInstance();
-		PlayerComponent incapacitatedComponent = (PlayerComponent) ComponentStarter.PLAYERCOMPONENTINSTANCE.get(client.player);
+		IncapacitatedComponent incapacitatedComponent = ComponentStarter.INCAPACITATEDCOMPONENTINSTANCE.get(client.player);
 		if (incapacitatedComponent.getIsIncapacitated()) {
 			DeltaModifier.delta += MovementConfig.getInstance().incapacitatedSupport.brighten ? 0.01F : -0.01F;
 			if (MovementConfig.getInstance().incapacitatedSupport.clamp) {
